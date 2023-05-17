@@ -1,6 +1,8 @@
 package co.com.lvicenteaa.usuarioservice.controladores;
 
 import co.com.lvicenteaa.usuarioservice.entidades.Usuario;
+import co.com.lvicenteaa.usuarioservice.modelos.Carro;
+import co.com.lvicenteaa.usuarioservice.modelos.Moto;
 import co.com.lvicenteaa.usuarioservice.servicio.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +42,27 @@ public class UsuarioController {
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(nuevoUsuario);
     }
+
+    @GetMapping("/carros/{usuarioId}")
+    public ResponseEntity<List<Carro>> getCarros(@PathVariable("usuarioId") Long usuarioId){
+        Usuario usuario = usuarioService.getUsuarioById(usuarioId);
+        if(usuario == null){
+            return ResponseEntity.notFound().build();
+        }
+        List<Carro> carros = this.usuarioService.getCarros(usuarioId);
+        return ResponseEntity.ok(carros);
+    }
+
+    @GetMapping("/motos/{usuarioId}")
+    public ResponseEntity<List<Moto>> getMotos(@PathVariable("usuarioId") Long usuarioId){
+        Usuario usuario = usuarioService.getUsuarioById(usuarioId);
+        if(usuario == null){
+            return ResponseEntity.notFound().build();
+        }
+        List<Moto> motos = this.usuarioService.getMotos(usuarioId);
+        return ResponseEntity.ok(motos);
+    }
+
+
 
 }
